@@ -228,7 +228,7 @@ window.addEventListener('load', (e) => {
     function vaciarStorage() {
         sessionStorage.setItem('cart', JSON.stringify([]));
         navigator.sendBeacon(
-            'https://estudiocraviotto.com.ar/api/cart/update_cart',
+            'https://localhost:3000/api/cart/update_cart',
             '[]'
         );
         renderEmptyCart();
@@ -244,7 +244,7 @@ window.addEventListener('load', (e) => {
             sessionStorage.setItem('cart', JSON.stringify(cart));
 
             navigator.sendBeacon(
-                'https://estudiocraviotto.com.ar/api/cart/update_cart',
+                'https://localhost:3000/api/cart/update_cart',
                 sessionStorage.getItem('cart')
                 );
             let itemInCart = document.querySelector(`.cart-item${pId}`);
@@ -259,7 +259,7 @@ window.addEventListener('load', (e) => {
 
             sessionStorage.setItem('cart', '[]');
             navigator.sendBeacon(
-                'https://estudiocraviotto.com.ar/api/cart/update_cart',
+                'https://localhost:3000/api/cart/update_cart',
                 JSON.stringify([])
                 );
             fetchedProducts = [];
@@ -321,7 +321,7 @@ window.addEventListener('load', (e) => {
             fetchedProducts.splice(productIndexInFetched, 1);
             sessionStorage.setItem('cart', JSON.stringify(cart));
             navigator.sendBeacon(
-                'https://estudiocraviotto.com.ar/api/cart/update_cart',
+                'https://localhost:3000/api/cart/update_cart',
                 sessionStorage.getItem('cart')
                 );
             let itemInCart = document.querySelector(`.cart-item${pId}`);
@@ -333,7 +333,7 @@ window.addEventListener('load', (e) => {
             });
             if (cart.length == 0) {
                 sessionStorage.setItem('cart', JSON.stringify([]));
-                navigator.sendBeacon('https://estudiocraviotto.com.ar/api/cart/update_cart', sessionStorage.getItem('cart'));
+                navigator.sendBeacon('https://localhost:3000/api/cart/update_cart', sessionStorage.getItem('cart'));
                 fetchedProducts = [];
 
                 renderEmptyCart();
@@ -348,7 +348,7 @@ window.addEventListener('load', (e) => {
             updateQuantities(pId, 'lower');
             sessionStorage.setItem('cart', JSON.stringify(cart));
             navigator.sendBeacon(
-                'https://estudiocraviotto.com.ar/api/cart/update_cart',
+                'https://localhost:3000/api/cart/update_cart',
                 sessionStorage.getItem('cart')
                 );
             refreshCounter();
@@ -368,7 +368,7 @@ window.addEventListener('load', (e) => {
         ++fetchedProducts[productIndexInFetched].q;
         sessionStorage.setItem('cart', JSON.stringify(cart));
         navigator.sendBeacon(
-            'https://estudiocraviotto.com.ar/api/cart/update_cart',
+            'https://localhost:3000/api/cart/update_cart',
             sessionStorage.getItem('cart')
             );
         updateQuantities(pId, 'raise');
