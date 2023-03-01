@@ -1,21 +1,17 @@
 window.addEventListener('load', (e) => {
     const toThousand = (n) =>
         n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    let cart; // Scope amplio para usarlo en todas partes
-    let createdOrderId; // Al momento de crear los detalles de la orden necesito el id al que se asocian
-    let cartContainer = document.querySelector('.cart'); // Traigo el <form> con todo, carrito+checkout
-    let cartBody = document.querySelector('.cart__body'); // Traigo el contenedor de cada producto <article>
+    let cart;
+    let createdOrderId;
+    let cartContainer = document.querySelector('.cart');
+    let cartBody = document.querySelector('.cart__body');
     let totalAmountOutput = document.querySelector(
         '.cart-subtotal__total-amount'
-    ); // tabla orders --> amount
-    let fetchedProducts = []; // Van a parar objetos con id, quantity, price. Lo conecto luego con orders.
+    );
+    let fetchedProducts = [];
 
-    // Si bien está en el js general (storage.js), me lo traigo para usar acá porque a veces puedo llegar a necesitar hacer refresh al counter, sin hacer refresh a la página (F5). Puede que esté demás, veremos
     let cartItemCounter = document.querySelector('.cart-item-counter');
 
-    // Si hay carrito en storage, me lo traigo
-    // Por cada producto me traigo el registro entero
-    // Si vinieron productos, en cada vuelta agrego cada producto al final
     if (sessionStorage.cart && sessionStorage.cart.length > 2) {
         cart = JSON.parse(sessionStorage.cart) || [];
         cart.forEach((item, i) => {
@@ -25,14 +21,6 @@ window.addEventListener('load', (e) => {
                     if (data) {
                         product = data.product;
                         cartBody.innerHTML +=
-                            // Al <article>, y al <i> le pongo clases o atributos relacionados con el id del producto. Esto nos va a permitir:
-
-                            // Vincular un único botón de borrado con un único <article>(producto renderizado)
-                            // Vincular esos elementos renderizados, con el id de mi variable actualizada carrito
-                            // Que también se vincula id del storage
-                            // el cual voy a usar para buscar el índice exacto del producto que quiero borrar
-                            // según su id original. Si nos manejamos con índices de ciclos FOR o forEach luego al
-                            // Borrar los productos de un lado y del otro se termina haciendo un lío
                             `
                 <article class='cart-item cart-item${item.id} '>
                 <div class="cart-item__img-container">
@@ -77,10 +65,7 @@ window.addEventListener('load', (e) => {
                 </div>
                 </article>
                 `;
-                        // Una cosa es mi carrito con toda mi data (let cart)
-                        // Y otra es el id de cada producto que tengo que manipular, y del que luego voy a necesitar
-                        // el $ y la quantity para generar la orden correspondiente. Por eso el array aparte.
-                        // A fetched products van los que van a pasar por el checkout
+
                         fetchedProducts.push({
                             id: product.id,
                             price: product.price,
@@ -88,22 +73,16 @@ window.addEventListener('load', (e) => {
                             q: item.q,
                         });
                     } else {
-                        // Si el producto pedido por fetch a la DB no viene, lo borro del objeto del carrito
-                        // Tal vez le quedó en el storage y yo no lo vendo más. Lo borro de mi variable local general.
+ 
                         cart.splice(i, 1);
-                        // Luego actualizo el carrito del storage, sino ese producto me va a seguir quedando
+
                         sessionStorage.setItem('cart', JSON.stringify(cart));
                     }
                 })
-                // Después de todo el forEach para renderizar el carrito.ejs según lo que haya en el storage
-                // Ahí si, con todos los precios y cantidades, actualizo el "TOTAL $---"
+
                 .then((r) => {
                     updateTotal();
-                    // Y a cada cesto de basura le agrego el listener para borrar
-                    // Lo busco por una clase común a todos los botonos
-                    // Extraigo el target.dataset.pid y mando ese dato a la función para remover items del storage
-                    // Tener en cuenta que una cosa es el data-id del botón para comprar un producto
-                    // y otra cosa son los data-pid de los botones para remover un producto
+
                     let btnTrash = document.querySelectorAll('.fa-trash-can');
                     btnTrash.forEach((button, i) => {
                         button.addEventListener('click', (e) => {
@@ -112,7 +91,6 @@ window.addEventListener('load', (e) => {
                         });
                     });
 
-                    // Funcion para aumentar las cantidades de un producto del carrito
                     let btnRaiseQuantity =
                         document.querySelectorAll('.fa-arrow-up');
                     btnRaiseQuantity.forEach((button) => {
@@ -121,7 +99,7 @@ window.addEventListener('load', (e) => {
                             raiseQuantity(idProd, cart);
                         });
                     });
-                    // Funcion para disminuirlas
+
                     let btnLowerQuantity =
                         document.querySelectorAll('.fa-arrow-down');
                     btnLowerQuantity.forEach((button) => {
@@ -130,13 +108,15 @@ window.addEventListener('load', (e) => {
                             lowerQuantity(idProd, cart);
                         });
                     });
+                })
+                .catch(err => {
+                    res.status(500).json({
+                        message: 'Something happened while processing your request',
+                        error: err
+                    });
                 });
         });
 
-        
-        // Esta función puede ser que pueda ir en otra parte del código, hay que testear el scope
-        // Prevenimos el default del form
-        // Traemos y procesamos toda la info con la que vamos a llenar 1 registro de la tabla orders
         cartContainer.addEventListener('submit', (e) => {
             e.preventDefault();
             let paymentMethod = document.querySelector("#paymentMethod");
@@ -149,9 +129,7 @@ window.addEventListener('load', (e) => {
             let phoneError = document.querySelector("#phoneError");
 
             let errores = {};
-      
-            console.log(phone.value.length > 14);
-            console.log(phone.value.length);
+
 
             if (city.value == "") {
                 errores.city = "Debes elegir una localidad";
@@ -174,14 +152,12 @@ window.addEventListener('load', (e) => {
             } else {
                 
             let fullShippingAddress = street.value + ', ' + city.value;
-            // Preparamos el body del POST para crear la orden
             let formData = {
                 amount: parseFloat(getSubtotal(fetchedProducts)),
                 shippingAddress: fullShippingAddress,
                 phone: phone.value,
                 paymentMethod: paymentMethod.value,
             };
-            // Preparamos el la config default..
             let config = {
                 headers: {
                     Accept: 'application/json',
@@ -190,32 +166,22 @@ window.addEventListener('load', (e) => {
                 method: 'POST',
                 body: JSON.stringify(formData),
             };
-            // Pasamos la config del POST de la orden, a una función asíncrona que va a hacer 2 cosas:
-            // El post de la orden
-            // Y 1 post por cada order-detail
+
             createOrderAndOrderDetails(config);
         }
         });
 
-        //Todo esto si hay storage. Ahora, si no hay storage no hay carrito.
-        // No solo no renderizo, sino que además borro las tablas y headers, etc.
     } else {
         renderEmptyCart();
     }
 
-    // Más arriba, si había storage y la persona mandaba el form, hacíamos el call para las peticiones:
-    // Cuando la orden se cree, va a retornar la respuesta con el order_id, que vamos a guardar en createdOrderId
     async function createOrderAndOrderDetails(config) {
         let orderRawResponse = await fetch(`/api/cart/orders/create`, config);
         let parsedOrderResponse = await orderRawResponse.json();
         createdOrderId = parsedOrderResponse.order.id;
-        // Hecha la compra, chau storage, y borramos el render de cada articulo del carrito
+
         vaciarStorage();
 
-        // Luego vamos a usar el array fetchedProducts donde guardamos de cada item del storage
-
-        // Para crear los order-details y poblar la tabla en la DB, ya habíamos guardado el order_id
-        // Vamos a usar el id y la quantity de cada producto para que sean nuestro product_id y quantity:
         fetchedProducts.forEach((product) => {
             let config2 = {
                 headers: {
@@ -244,18 +210,21 @@ window.addEventListener('load', (e) => {
                             window.location.href = `/cart/orders/details/${createdOrderId}`;
                         },
                     });
+                }).catch(err => {
+                    res.status(500).json({
+                        message: 'Something happened while processing your request',
+                        error: err
+                    });
                 });
         });
     }
 
-    // Sección derecha del carrito. Precio x cantidad
     function getSubtotal(products) {
         return products.reduce((acum, elem) => {
             return (acum += parseInt(((elem.price * (100 - elem.discount))/100) * elem.q));
         }, 0);
     }
 
-    // Remueve todo el carrito, y además te limpia el HTML
     function vaciarStorage() {
         sessionStorage.setItem('cart', JSON.stringify([]));
         navigator.sendBeacon(
@@ -265,43 +234,36 @@ window.addEventListener('load', (e) => {
         renderEmptyCart();
     }
 
-    // El data-pid del botón de borrado va a representar a nuestro id de producto REAL
-    // Ese ID es el mismo que está tanto en la DB como en el storage
-    // Vamos a buscar quirúrgicamente y según su ID, aquel elemento cuyo id coincida con el id guardado en el botón
-    // Nos va a devolver el índice en el que se encuentra en nuestro array (que es un reflejo del storage)
-    // Lo removemos, ahora sí, según el índice (pero habiéndolo filtrado fielmente según EL id)
     function removeItemFromCart(pId, cart) {
         if (cart.length > 1) {
             let productIndex = cart.findIndex((product) => product.id == pId);
             let productIndexInFetched = fetchedProducts.findIndex((product) => product.id == pId);
-            // Lo sacamos de nuestro reflejo de storage, y actualizamos el storage
+
             cart.splice(productIndex, 1);
             fetchedProducts.splice(productIndexInFetched, 1);
             sessionStorage.setItem('cart', JSON.stringify(cart));
-            // Al mismo tiempo, deleteamos el HTML vinculado (por supuesto...) al ID real del objeto.
+
             navigator.sendBeacon(
                 'https://estudiocraviotto.com.ar/api/cart/update_cart',
                 sessionStorage.getItem('cart')
                 );
             let itemInCart = document.querySelector(`.cart-item${pId}`);
             itemInCart.remove();
-            // Actualizamos el numerito del ícono
+
             refreshCounter();
             cartToast.fire({
                 icon: 'warning',
                 title: `Item removed from the cart`,
             });
         } else {
-            // Y si no hay nada en el carrito es porque ese elemento era el único y último
-            // Sacamos el array entero del storage.
-            // Reflejamos nuestra modificación en nuestro arreglo de productos seleccionados (reflejo del storage)
+
             sessionStorage.setItem('cart', '[]');
             navigator.sendBeacon(
                 'https://estudiocraviotto.com.ar/api/cart/update_cart',
                 JSON.stringify([])
                 );
             fetchedProducts = [];
-            // Y hacemos que coincida la realidad con lo que ve el usuario. Limpiamos el html.
+
             vaciarStorage();
             cartToast.fire({
                 icon: 'info',
@@ -390,9 +352,7 @@ window.addEventListener('load', (e) => {
                 sessionStorage.getItem('cart')
                 );
             refreshCounter();
-            // Y si no hay nada en el carrito es porque ese elemento era el único y último
-            // Sacamos el array entero del storage.
-            // Reflejamos nuestra modificación en nuestro arreglo de productos seleccionados (reflejo del storage)
+
             cartToast.fire({
                 icon: 'info',
                 title: 'Quantity decreased',
@@ -429,6 +389,6 @@ window.addEventListener('load', (e) => {
             itemQ.innerText = --qNumber;
         }
     }
-    // Ni bien carga o si venimos de una redirección, revisar el storage para mantener actualizado el HTML
+
     checkCart();    
 });

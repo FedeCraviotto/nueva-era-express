@@ -49,9 +49,7 @@ app.use(userLoggedValidator);
 
 // Routers
 app.use('/', mainRouter);
-// app.use('/', (req, res) =>{
-//     res.send({msg: 'Todo bien'});
-// })
+
 app.use('/products', productsRouter);
 app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
@@ -67,10 +65,7 @@ app.use((req, res, next) => {
     res.status(404).render('404', { title: 'pagina no encontrada' });
 });
 
-// Levantamos servidor
-// app.listen(3001, () => {
-//     console.log(`Server is running on port ${3001}`);
-// });
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

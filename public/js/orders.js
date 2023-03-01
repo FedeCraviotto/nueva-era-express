@@ -6,7 +6,7 @@ window.addEventListener('load', (e) => {
     .then(results => results.json())
     .then(orders => {
         let allOrders = orders.orders;
-        // Si vienen ordenes renderizamos c/u en 1 <tr>...
+
         if (allOrders && allOrders.length > 0) {
             tableBody.innerHTML =
             `
@@ -20,10 +20,15 @@ window.addEventListener('load', (e) => {
             `;
             renderOrders(allOrders)
         } else {
-            // Sino limpiamos el HTML
+
             emptyOrders()
         }
-    })
+    }).catch(err => {
+        res.status(500).json({
+            message: 'Something happened while processing your request',
+            error: err
+        });
+    });
 
     function emptyOrders() {
         tableBody.innerHTML =
@@ -32,8 +37,6 @@ window.addEventListener('load', (e) => {
         `
     }
 
-    // Aprovechamos el createdAt, nos quedamos solo con el DATE, descartamos el TIME.
-    // En cada <tr> para cada orden, vamos a crear un <a> que lleve al listado de order-details
     function renderOrders(orders) {
         orders.forEach((order, i) => {
             let orderRow = document.createElement('tr');
@@ -41,8 +44,6 @@ window.addEventListener('load', (e) => {
             orderRow.classList.add(`cart-orders__row-${i}`)
             let creationTime = new Date();
 
-            // let creationTime2 = order.created_at;
-            // <td>${creationTime2.substring(0,10)}</td>
             orderRow.innerHTML= 
             `
                 <td>${creationTime.toLocaleDateString('es-ES')}</td>
@@ -52,8 +53,7 @@ window.addEventListener('load', (e) => {
                 <td><a href="/cart/orders/details/${order.id}"">Ver</a></td>
             `
             tableBody.append(orderRow)
-        
-        })
-    }
+        });
+    };
 
 })

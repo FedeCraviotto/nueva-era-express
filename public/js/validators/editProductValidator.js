@@ -40,9 +40,9 @@ window.addEventListener("load", function () {
     } else if (stock.value.length < 1) {
       errores.stock = "Debes completar el stock inicial. Ingresa solo números";
     }
-    console.log('Llego aca')
+
     if (Object.keys(errores).length >= 1) {
-      console.log('Llego aca')
+
       nameError.innerText = errores.name ? errores.name : "";
       shortDescError.innerText = errores.shortDesc ? errores.shortDesc : "";
       longDescError.innerText = errores.longDesc ? errores.longDesc : "";

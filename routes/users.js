@@ -9,7 +9,6 @@ const { editUserValidations } = require('../middlewares/editUserValidator');
 const guestValidator = require('../middlewares/guestValidator');
 const authValidator = require('../middlewares/authValidator');
 
-//Express validator ya está instalado, falta setear
 
 // Formulario Login vista
 router.get('/login', guestValidator, usersController.login);

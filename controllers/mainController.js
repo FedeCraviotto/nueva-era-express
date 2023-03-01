@@ -16,16 +16,13 @@ const mainController = {
                 categoryRedirect,
                 toThousand
             })
+        }).catch(err => {
+            res.status(500).json({
+                message: 'An error occured while processing your request',
+                error: err
+            })
         })
     },
-    /*
-    search() explanation:
-    Filter results by product name, and category name, WHERE field LIKE %query%
-    With the '$..$' syntax, we must:
-    1) include association name, setted in the model;
-    2) use the DATABASE table name, not the model
-    If the sequelize model is called 'Category'(.js), and my table in DB is 'cateogories', we use the last one.
-    */
     search : (req, res) => {
         let productsQuery = req.query.keywords.toLowerCase();
         db.Products.findAll({
@@ -42,7 +39,12 @@ const mainController = {
         })
         .then(queryResults => {
             res.render('main/results', {queryProducts : queryResults, productsQuery, title:'Search results', toThousand});
-        }) 
+        }).catch(err => {
+            res.status(500).json({
+                message: 'An error occured while processing your request',
+                error: err
+            })
+        });
     }
 }
 module.exports = mainController;

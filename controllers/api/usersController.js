@@ -13,10 +13,14 @@ const usersController = {
                     count: results.length,
                     users: results,
                 });
+            }).catch(err => {
+                res.status(500).json({
+                    message: 'An error occured while processing your request',
+                    error: err
+                })
             })
-            .catch('Ocurrio un error listando usuarios');
     },
-    // No pueden ir campos como password
+
     detail: (req, res) => {
         db.User.findByPk(req.params.id, {
             attributes: [
@@ -51,7 +55,7 @@ const usersController = {
                 }
             })
             .catch((error) => {
-                res.json({
+                res.status(500).json({
                     message: 'Something unexpected just happened',
                 });
             });
@@ -61,7 +65,7 @@ const usersController = {
         if (req.session.userLogged) {
             return res.json(req.session.userLogged.cart);
         } else {
-            return res.json({
+            return res.status(401).json({
                 error : 'No hay ningun usuario logeado aun!'
             })
         }
@@ -95,6 +99,11 @@ const usersController = {
                     avatarURL:`${process.env.WEBPAGE_PROTOCOL}://${process.env.WEBPAGE_NAME}/images/users/` + user["dataValues"]["avatar"],
                 }
             });
+        }).catch(err => {
+            res.status(500).json({
+                message: 'An error occured while processing your request',
+                error: err
+            })
         })
     }
 };

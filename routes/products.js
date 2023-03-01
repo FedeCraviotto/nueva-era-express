@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router()
 const productsController = require('../controllers/productsController')
-// Instancia de multer, prop diskStorage (storage) - Middleware
 const { validations } = require('../middlewares/createProductValidator');
 const { editProductvalidations } = require('../middlewares/editProductValidator');
 const uploadFile = require('../middlewares/multerProducts');
@@ -9,7 +8,7 @@ const authValidator = require('../middlewares/authValidator');
 const adminValidator = require('../middlewares/adminValidator');
 
 
-//Listado de productos - OK
+//List
 router.get('/', productsController.list);
 
 //Crear

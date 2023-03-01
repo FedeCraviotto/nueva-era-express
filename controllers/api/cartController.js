@@ -67,8 +67,6 @@ const cartController = {
                 order_id: req.params.orderId,
             },
             include: [db.Products],
-            // Podríamos agregar db.User si quisieramos
-            //Eso nos trae la pivot + la relación especificada
         })
             .then((results) => {
                 return res.json({
@@ -97,10 +95,13 @@ const cartController = {
                 orderId: newOrder.id,
                 order: newOrder,
             });
-        });
+        }).catch(err => {
+            res.status(500).json({
+                message: 'An error occured while processing your order',
+                error: err
+            })
+        })
     },
-    // En el js, primero se crea una orden. La respuesta devuelve el orderId al front
-    // Luego con los demás datos, recien ahí, se manda a crear cada uno de los detalles de la orden
     createOrderDetailsRecord: (req, res) => {
         db.OrderDetails.create({
             ...req.body,
@@ -111,7 +112,12 @@ const cartController = {
                 DetailsId: newOrderDetails.id,
                 newOrderDetails: newOrderDetails,
             });
-        });
+        }).catch(err => {
+            res.status(500).json({
+                message: 'An error occured while processing the order details',
+                error: err
+            })
+        })
     },
     update_cart: async (req, res) => {
         if (req.session.userLogged) {
@@ -150,8 +156,13 @@ const cartController = {
             lastItems.forEach(item => {
                 items.push(item.Product.name);
             })
-            res.json({
+            res.status(200).json({
                 items
+            })
+        }).catch(err => {
+            res.status(500).json({
+                message: 'An error occured while processing your request',
+                error: err
             })
         })
     },
@@ -159,8 +170,13 @@ const cartController = {
         db.OrderDetails.findAll({
             include: [db.Products]
         }).then(details => {
-            res.json({
+            res.status(200).json({
                 details
+            })
+        }).catch(err => {
+            res.status(500).json({
+                message: 'An error occured while processing your request',
+                error: err
             })
         })
 

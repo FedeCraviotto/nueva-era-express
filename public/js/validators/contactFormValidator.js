@@ -6,10 +6,7 @@ window.addEventListener("load", function () {
     let emailError = document.querySelector("#emailError");
     let message = document.querySelector("#message");
     let messageError = document.querySelector("#messageError");
-    // let allInputs = document.querySelectorAll('.contactForm-input');
-    // let allErrorPs = document.querySelectorAll('.form-messageError');
-    // console.log(allInputs);
-    // console.log(allErrorPs);
+
     let button = document.querySelector("#submitContactBtn");
     button.addEventListener("click", function (event) {
       event.preventDefault();

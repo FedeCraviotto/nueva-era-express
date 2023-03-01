@@ -10,8 +10,6 @@ const productsController = {
                 ? null
                 : parseInt(req.params.pagenumber) - 1;
         let nextPage = parseInt(req.params.pagenumber) + 1;
-
-        // Pidieron cuantos productos hay por categoría, y el nombre de la categoría...
         let byCategories = db.Products.findAll({
             attributes: [
                 'categories.name',
@@ -23,7 +21,7 @@ const productsController = {
             include: ['categories'],
             group: ['categories.name', 'categories.id'],
         });
-        // Y los productos con todas las asociaciones...
+
         let allProducts = db.Products.findAll({
             include: [
                 { association: 'brands' },
@@ -37,21 +35,16 @@ const productsController = {
 
         Promise.all([byCategories, allProducts])
             .then((results) => {
-                // En la primer promesa vienen las categorías
-                // Creamos un objeto que va a ser { nombreDeCategoría : cantidad de productos de esa categoría }
                 let countByCategories = {};
                 let processedResults = [];
                 if (results[1].length > 0) {
-                    // En la primer promesa con--> results[0] vienen las categorías. Entramos a cada una con --> [i]
-                    // Hay que ingresar al valor de esta manera...
+
                     for (let i = 0; i < results[0].length; i++) {
                         countByCategories[
                             results[0][i]['dataValues']['categories']['name']
                         ] = results[0][i]['dataValues']['count'];
                     }
-                    // En la segunda promesa --> results[1] vienen los productos
-                    // Formateamos los resultados de un producto en un objeto
-                    // y los pusheamos a processedResults
+
                     for (let i = 0; i < results[1].length; i++) {
                         let formattedResult = {
                             id: results[1][i].id,
@@ -62,9 +55,7 @@ const productsController = {
                         processedResults.push(formattedResult);
                     }
                 }
-                // Ya tenemos nuestras categorías {nombre : nProds}
-                // Los productos [{prod}, {prod}, {prod}, etc]
-                // Seteamos lo que va a ir al json
+
                 let finalResponse = {
                     total: results[1].length,
                     itemsRetrieved: `products ${paginado + 1} up to ${
@@ -73,10 +64,6 @@ const productsController = {
                     countByCategories,
                     products: processedResults,
                 };
-                // Aca sucede lo siguiente
-                // Más arriba, en base a lo que nos venía como parámetro, seteábamos el nextPage y previousPage
-                // Acá, entonces, al objeto respuesta, si corresponde agregarle nextPage, lo hacemos
-                // Lo mismo con previousPage
                 if (previousPage != null) {
                     finalResponse.previous = `${process.env.WEBPAGE_PROTOCOL}://${process.env.WEBPAGE_NAME}/api/products/page/${previousPage}`;
                 }
@@ -89,15 +76,13 @@ const productsController = {
                 });
             })
             .catch((err) => {
-                res.json({
+                res.stauts(500).json({
                     message: 'Bad request',
                     error: err,
                 });
             });
     },
-    // Elegimos las asociaciones, como pidieron
-    // Traemos solo ciertos atributos,no podemos incluir datos sensibles
-    // Formateamos cada campo de la respuesta
+
     detail: (req, res) => {
         db.Products.findByPk(req.params.id, {
             include: ['brands', 'categories', 'colors'],
@@ -117,7 +102,6 @@ const productsController = {
                     id: productToDetail['dataValues']['id'],
                     name: productToDetail['dataValues']['name'],
                     price: productToDetail['dataValues']['price'],
-                    // img != url. Tenemos que incluirlo para el front. NO borrar
                     image: productToDetail['dataValues']['image'],
                     shortDesc: productToDetail['dataValues']['shortDesc'],
                     longDesc: productToDetail['dataValues']['longDesc'],
@@ -140,14 +124,14 @@ const productsController = {
                 });
             })
             .catch((err) => {
-                res.json({
+                res.status(500).json({
                     message: 'Bad request',
                     error: err,
                 });
             });
     },
     allProducts: (req, res) => {
-        // Lo mismo que en fila 40. Pidieron esto.
+
         let byCategories = db.Products.findAll({
             attributes: [
                 'categories.title',
@@ -198,7 +182,7 @@ const productsController = {
                 });
             })
             .catch((err) => {
-                res.json({
+                res.status(500).json({
                     message: 'Bad request',
                     error: err,
                 });
@@ -237,6 +221,11 @@ const productsController = {
               url:`${process.env.WEBPAGE_PROTOCOL}://${process.env.WEBPAGE_NAME}/images/products/` + lastProduct["dataValues"]["image"]
             };
             res.json({processedProduct});
+        }).catch(err => {
+            res.status(500).json({
+                message: 'An error occured while requesting the last product',
+                error: err
+            })
         })
     }
 };

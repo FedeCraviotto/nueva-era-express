@@ -18,14 +18,20 @@ const productsController = {
         title: "All Products",
         toThousand
       });
-    });
+    }).catch(err => {
+      res.status(500).json({
+          message: 'An error occured while processing your request',
+          error: err
+      })
+  })
   },
   create: (req, res) => {
     let productValidatorScript = true;
     let categories = db.Categories.findAll();
     let colors = db.Colors.findAll();
     let brands = db.Brands.findAll();
-    Promise.all([categories, colors, brands]).then((values) => {
+    Promise.all([categories, colors, brands])
+    .then((values) => {
       res.render("products/product-create", {
         categories: values[0],
         colors: values[1],
@@ -33,7 +39,12 @@ const productsController = {
         title: "New Product",
         productValidatorScript
       });
-    });
+    }).catch(err => {
+      res.status(500).json({
+          message: 'An error occured while processing your request',
+          error: err
+      })
+  })
   },
   store: (req, res) => {
     const results = validationResult(req);
@@ -42,7 +53,8 @@ const productsController = {
       let categories = db.Categories.findAll();
       let colors = db.Colors.findAll();
       let brands = db.Brands.findAll();
-      Promise.all([categories, colors, brands]).then((values) => {
+      Promise.all([categories, colors, brands])
+      .then((values) => {
         return res.render("products/product-create", {
           categories: values[0],
           colors: values[1],
@@ -52,7 +64,12 @@ const productsController = {
           errors: results.mapped(),
           oldData: req.body,
         });
-      });
+      }).catch(err => {
+        res.status(500).json({
+            message: 'An error occured while processing your request',
+            error: err
+        })
+    })
     } else {
       db.Products.create({
         name: req.body.name,
@@ -79,7 +96,12 @@ const productsController = {
         })
         .then((ok) => {
           res.redirect("/products");
-        });
+        }).catch(err => {
+          res.status(500).json({
+              message: 'An error occured while processing your request',
+              error: err
+          })
+      });
     }
   },
   detail: (req, res) => {
@@ -95,7 +117,12 @@ const productsController = {
         title: "Detail",
         toThousand
       });
-    });
+    }).catch(err => {
+      res.status(500).json({
+          message: 'An error occured while processing your request',
+          error: err
+      })
+  })
   },
   edit: (req, res) => {
     let editProductValidatorScript = true;
@@ -118,12 +145,16 @@ const productsController = {
         title: "Edit Product",
         editProductValidatorScript
       });
-    });
+    }).catch(err => {
+      res.status(500).json({
+          message: 'An error occured while processing your request',
+          error: err
+      })
+  });
   },
   update: (req, res) => {
-    console.log('HOLA')
     const results = validationResult(req);
-    console.log(results.errors)
+    
     if (results.errors.length > 0) {
       let editProductValidatorScript = true;
       let categories = db.Categories.findAll();
@@ -149,7 +180,12 @@ const productsController = {
             errors: results.mapped(),
           });
         }
-      );
+      ).catch(err => {
+        res.status(500).json({
+            message: 'An error occured while processing your request',
+            error: err
+        })
+    });
     } else {
       db.Products.update(
         {
@@ -185,11 +221,21 @@ const productsController = {
             })
             .then((r) => {
               res.redirect(`/products/${req.params.id}`);
-            });
+            }).catch(err => {
+              res.status(500).json({
+                  message: 'An error occured while processing your request',
+                  error: err
+              })
+          });
         } else {
           res.redirect(`/products/${req.params.id}`);
         }
-      });
+      }).catch(err => {
+        res.status(500).json({
+            message: 'An error occured while processing your request',
+            error: err
+        })
+    });
     }
   },
   delete: async (req, res) => {
@@ -198,7 +244,7 @@ const productsController = {
         fs.unlinkSync("./public/images/products/" + prod.image);
       })
       .catch((error) => {
-        console.log("Posiblemente la imágen ya haya sido borrada!");
+        res.status(404).json("Posiblemente la imágen ya haya sido borrada!");
       });
     db.Products.destroy({
       where: {
@@ -206,7 +252,12 @@ const productsController = {
       },
     }).then((resol) => {
       res.redirect("/products");
-    });
+    }).catch(err => {
+      res.status(500).json({
+          message: 'An error occured while processing your request',
+          error: err
+      })
+  });
   },
 };
 
