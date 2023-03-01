@@ -63,21 +63,19 @@ window.addEventListener('load', async (e) => {
     refreshCounter();
 
     if (!sessionStorage.getItem('cart')) {
-        await fetch('https://nueva-era-express-fnc.onrender.com/api/users/cart')
-            .then((userJson) => userJson.json())
-            .then((userData) => {
-                if (!userData.error) {
-                    userData = JSON.parse(userData);
-                    if (userData.length != 0) {                        
-                        sessionStorage.setItem('cart', JSON.stringify(userData));
-                        refreshCounter();
-                    }
-                } else if (userData.error) {
-                    throw new Error('No user logged yet');
+        try {
+            const userJson = await fetch('https://nueva-era-express-fnc.onrender.com/api/users/cart')
+            let userData = await userJson.json()
+            if (!userData.error) {
+                userData = JSON.parse(userData);
+                if (userData.length != 0) {                        
+                    sessionStorage.setItem('cart', JSON.stringify(userData));
+                    refreshCounter();
                 }
-            }).catch(err => {
-                throw new Error('Something happened while processing your request');
-            });
+            }  
+        } catch (error) {
+            console.log(error)
+        }
     } 
 
     addEventListener('visibilitychange', (event) => {
