@@ -17,7 +17,7 @@ const usersRouterAPI = require('./routes/api/users');
 const cartRouterAPI = require('./routes/api/cart');
 // middlewares
 const methodOverride = require('method-override');
-const session = require('express-session');
+const session = require('cookie-session');
 const cookies = require('cookie-parser');
 const userLoggedValidator = require('./middlewares/userLoggedValidator');
 const bodyParser = require('body-parser');
