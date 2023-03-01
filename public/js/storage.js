@@ -73,7 +73,7 @@ window.addEventListener('load', async (e) => {
                         refreshCounter();
                     }
                 } else if (userData.error) {
-                    return;
+                    throw new Error('No user logged yet');
                 }
             }).catch(err => {
                 throw new Error('Something happened while processing your request');
