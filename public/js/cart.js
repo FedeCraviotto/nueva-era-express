@@ -110,10 +110,7 @@ window.addEventListener('load', (e) => {
                     });
                 })
                 .catch(err => {
-                    res.status(500).json({
-                        message: 'Something happened while processing your request',
-                        error: err
-                    });
+                    throw new Error('Something happened while processing your request');
                 });
         });
 
@@ -211,10 +208,7 @@ window.addEventListener('load', (e) => {
                         },
                     });
                 }).catch(err => {
-                    res.status(500).json({
-                        message: 'Something happened while processing your request',
-                        error: err
-                    });
+                    throw new Error('Something happened while processing your request');
                 });
         });
     }

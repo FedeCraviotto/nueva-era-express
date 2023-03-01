@@ -76,10 +76,7 @@ window.addEventListener('load', async (e) => {
                     return;
                 }
             }).catch(err => {
-                res.status(500).json({
-                    message: 'Something happened while processing your request',
-                    error: err
-                });
+                throw new Error('Something happened while processing your request');
             });
     } 
 
