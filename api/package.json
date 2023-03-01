@@ -1,5 +1,5 @@
 {
-  "name": "proyecto_integrador",
+  "name": "api",
   "version": "1.0.0",
   "description": "Proyecto integrador realizado en la escuela de programacion Digital House. El desarrollo de este proyecto estara dividido en 8 sprints que abarcarán la totalidad de las temáticas del curso.",
   "main": "app.js",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leoturzi/proyecto_integrador.git"
+    "url": "git+https://github.com/FedeCraviotto/nueva-era-express.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/leoturzi/proyecto_integrador/issues"
+    "url": "https://github.com/FedeCraviotto/nueva-era-express/issues"
   },
-  "homepage": "https://github.com/leoturzi/proyecto_integrador#readme",
+  "homepage": "https://github.com/FedeCraviotto/nueva-era-express#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
