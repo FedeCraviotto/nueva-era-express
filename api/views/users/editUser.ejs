@@ -1,0 +1,63 @@
+<%- include('../partials/head', {title})%> <%- include('../partials/header')%>
+<%- include('../partials/nav')%>
+<div class="container--fixed">
+    <main>
+        <form
+            action="/users/edit/<%= userToEdit.id %>?_method=PUT"
+            method="POST"
+            class="login-container"
+            enctype="multipart/form-data"
+        >
+            <h3>Edit User</h3>
+            <div class="input-container">
+                <label for="first_name">Nombre</label>
+                <input
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    placeholder="Usuario"
+                    enctype="multipart/form-data"
+                    value="<%= locals.errors && errors.first_name ? errors.first_name.value : userToEdit.first_name %>"
+                />
+                <% if (locals.errors && errors.first_name) { %>
+                <div class="text-danger"><%= errors.first_name.msg %></div>
+                <% } %>
+            </div>
+            <div class="input-container">
+                <label for="last_name">Apellido</label>
+                <input
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    placeholder="last_name"
+                    value="<%= locals.errors && errors.last_name ? errors.last_name.value : userToEdit.last_name %>"
+                />
+                <% if (locals.errors && errors.last_name) { %>
+                <div class="text-danger"><%= errors.last_name.msg %></div>
+                <% } %>
+            </div>
+            <div class="input-container">
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    value="<%= locals.errors && errors.email ? errors.email.value : userToEdit.email %>"
+                />
+                <% if (locals.errors && errors.email) { %>
+                <div class="text-danger"><%= errors.email.msg %></div>
+                <% } %>
+            </div>
+            <div class="input-container">
+                <label for="avatar">Avatar</label>
+                <input type="file" id="avatar" name="avatar" />
+                <% if (locals.errors && errors.avatar) { %>
+                <div class="text-danger"><%= errors.avatar.msg %></div>
+                <% } %>
+            </div>
+            <button type="submit" class="btn">Actualizar</button>
+        </form>
+    </main>
+</div>
+<%- include('../partials/footer') %>

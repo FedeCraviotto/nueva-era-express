@@ -1,0 +1,111 @@
+<%- include('../partials/head', {title})%>
+<%- include('../partials/header')%>
+<%- include('../partials/nav')%>
+<div class="container--fixed">
+	<!-- <img src="https://rstatic.stores.musicarts.com/locations/3450_gonzales_la.jpg" alt="" /> -->
+	<main>
+		<section class="hero">
+			<img src="https://rstatic.stores.musicarts.com/locations/3450_gonzales_la.jpg" alt="" />
+				<div class="hero__text">
+					<h1 class="hero__title">Nueva Era</h1>
+					<h2 class="hero__subtitle">MUSIC STORE</h2>
+				</div>
+				<div class="hero--filter"></div>
+		</section>
+		
+		<section class="categories">
+			<div class="categories__titles">
+				<h3>Comprar por Instrumento</h3>
+				<h4><a href="/products/" class="categories-seeAll">ver todo</a></h4>
+			</div>
+			<ul class="categories__container">
+				<% if (locals.categories) { %>
+					<% for (let category of categories) { %>
+						<li class="categories__item" data-category="<%= category.name%>">
+							<div class="categories__img-container" data-category="<%= category.name%>">
+								<img
+									src="images/categories/<%= category.image%>"
+									alt="<%= category.title%>"
+									class="categories__img"
+									data-category="<%= category.name%>"
+								/>
+							</div>
+							<h4 data-category="<%= category.name%>"><%= category.title%></h4>
+						</li>
+					<% } %>
+				<% } %>
+			</ul>
+		</section>
+		
+		<section class="interest">
+			<div class="interest__text">
+				<h3>Te puede interesar</h3>
+				<h4><a href="/products/" class="categories-seeAll">ver todo</a></h4>
+			</div>
+			<ul class="products-list main-product-list">
+				<% if (locals.products && locals.products.length > 0) { %>
+					<% for (let product of products) { %>
+						<a href="/products/<%=product.id%>" class="main-flexchild card__link">
+							<li class="card card--aligned main-card">
+								<img
+									src="/images/products/<%= product.image || 'default.jpg' %>"
+									alt="<%=product.name%>"
+									class="card__img"
+								/>
+								
+								<% if( product.discount == 0) { %>
+									<p>$ <%= toThousand(product.price) %></p>
+								<% } else { %>
+									<p class="card__price --newPrice">$ <%= toThousand(parseInt((product.price * (100 - product.discount)) /100)) %></p>
+									<span class="card__price --discountOff"><%=product.discount%>% off!</span>
+								<% } %>
+								
+								<% if (product.dispatch == "1") { %>
+								<p class="card__dispatch">Envio gratis</p>
+								<% } %>
+								<p class="card__name"> <%=product.name%> </p>
+								<button class="btn">Comprar</button>
+							</li>
+						</a>
+					<% } %>
+				<% } %>
+			</ul>
+		</section>
+		<section class="brands">
+			<h3 class="brands__title">Encontra las mejores marcas!!!</h3>
+			<div class="brands__img-container">
+				<img
+					src="https://musicopolix.com/img/m/480-brands_default.jpg"
+					alt="Gibson"
+					class="brands__img"
+				/>
+				<img
+					src="https://musicopolix.com/img/m/262-brands_default.jpg"
+					alt="Alhambra"
+					class="brands__img"
+				/>
+				<img
+					src="https://musicopolix.com/img/m/136-brands_default.jpg"
+					alt="Fender"
+					class="brands__img"
+				/>
+				<img
+					src="https://musicopolix.com/img/m/125-brands_default.jpg"
+					alt="Boss"
+					class="brands__img"
+				/>
+				<img
+					src="https://musicopolix.com/img/m/124-brands_default.jpg"
+					alt="Roland"
+					class="brands__img"
+				/>
+				<img
+					src="https://musicopolix.com/img/m/57-brands_default.jpg    "
+					alt="Yamaha"
+					class="brands__img"
+				/>
+			</div>
+		</section>
+	</main>
+</div>
+<%- include('../partials/footer') %>

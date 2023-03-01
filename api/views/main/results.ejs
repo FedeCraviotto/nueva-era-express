@@ -1,0 +1,41 @@
+<%- include('../partials/head', {title})%>
+<%- include('../partials/header')%>
+<%- include('../partials/nav')%>
+<div class="container--fixed">
+	<main>
+        <section class="interest">
+			<div class="interest__text">
+				<h3>Resultados de la búsqueda: "<%= productsQuery %>"</h3>
+			</div>
+			<% if (queryProducts.length > 0) { %>
+            <ul class="products-list">
+				<% for (let product of queryProducts) { %>
+				<a href="/products/<%=product.id%>" class="card__link">
+					<li class="card card--aligned">
+						<img
+							src="/images/products/<%= product.image || 'default.jpg' %>"
+							alt="<%= product.name %>"
+							class="card__img"
+						/>
+						<p class="card__price">$<%= toThousand(product.price)%></p>
+						<% if (product.dispatch == "1") { %>
+						<p class="card__dispatch">Envio gratis</p>
+						<% } %>
+						<p class="card__name">
+							<%= product.name %>
+						</p>
+						<button class="btn">Comprar</button>
+					</li>
+				</a>
+				<% } %>
+			</ul>
+			<% } else { %>	
+				<div>
+					<p class="unsuccessful-query-text">No se encontraron resultados que coincidan con tu búsqueda.</p>
+					<p>Inténtalo de nuevo con otras palabras clave</p>
+				</div>
+			<% }%>
+		</section>
+    </main>
+</div>
+<%- include('../partials/footer') %>

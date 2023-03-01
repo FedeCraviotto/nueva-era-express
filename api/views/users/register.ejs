@@ -1,0 +1,133 @@
+<%- include('../partials/head', {title})%> <%- include('../partials/header')%>
+<%- include('../partials/nav')%>
+<div class="container container--fixed">
+    <main>
+        <form
+            action="/users/register"
+            method="POST"
+            class="login-container"
+            enctype="multipart/form-data"
+        >
+            <h3>Register</h3>
+            <div class="input-container">
+                <div class="input-container">
+                    <label for="avatar">Foto de perfil</label>
+                    <input type="file" id="avatar" name="avatar" />
+                </div>
+                <% if (locals.errors && errors.avatar) { %>
+                <div class="text-danger"><%= errors.avatar.msg %></div>
+                <% } %>
+                <label for="first_name">Nombre*</label>
+                <input
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    placeholder="Usuario"
+                    enctype="multipart/form-data"
+                    value="<%= locals.oldData ? oldData.first_name : null %>"
+                />
+                <% if (locals.errors && errors.first_name) { %>
+                <div class="text-danger"><%= errors.first_name.msg %></div>
+                <% } %>
+            </div>
+            <div class="input-container">
+                <label for="last_name">Apellido*</label>
+                <input
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    placeholder="Apellido"
+                    value="<%= locals.oldData ? oldData.last_name : null %>"
+                />
+                <% if (locals.errors && errors.last_name) { %>
+                <div class="text-danger"><%= errors.last_name.msg %></div>
+                <% } %>
+            </div>
+            <div class="input-container">
+                <label for="email">Email*</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    value="<%= locals.oldData ? oldData.email : null %>"
+                />
+                <% if (locals.errors && errors.email) { %>
+                <div class="text-danger"><%= errors.email.msg %></div>
+                <% } %>
+            </div>
+            <div class="input-container">
+                <label for="province">Provincia*</label>
+                <select style="display: block" name="province">
+                    <option value="">Seleccionar</option>
+                    <% for (let i = 0; i < provinces.length; i++) { %>
+                        <option value="<%=provinces[i]%>" <%= locals.oldData && oldData.province == provinces[i] ? 'selected' : ''; %>>
+                          <%=provinces[i]%>
+                        </option>
+                      <% } %>
+                </select>
+                <% if (locals.errors && errors.province) { %>
+                <div class="text-danger"><%= errors.province.msg %></div>
+                <% } %>
+            </div>
+            <div class="input-container">
+                <label for="street">Calle*</label>
+                <input
+                    type="text"
+                    id="street"
+                    name="street"
+                    placeholder="la rioja 956"
+                    value="<%= locals.oldData ? oldData.street : null %>"
+                />
+                <% if (locals.errors && errors.street) { %>
+                <div class="text-danger"><%= errors.street.msg %></div>
+                <% } %>
+            </div>
+            <div class="input-container">
+                <label for="phone">Telefono Celular*</label>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="1154198376"
+                    value="<%= locals.oldData ? oldData.phone : null %>"
+                />
+                <% if (locals.errors && errors.phone) { %>
+                <div class="text-danger"><%= errors.phone.msg %></div>
+                <% } %>
+            </div>
+            <div class="input-container">
+                <label for="password">Password*</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Contraseña"
+                />
+                <% if (locals.errors && errors.password) { %>
+                <div class="text-danger"><%= errors.password.msg %></div>
+                <% } %>
+            </div>
+            <div class="input-tyc">
+                <label for="tyc">Acepto Terminos y Condiciones</label>
+                <input
+                    type="checkbox"
+                    id="tyc"
+                    name="tyc"
+                    placeholder="Contraseña"
+                />
+            </div>
+            <% if (locals.errors && errors.tyc) { %>
+            <div class="text-danger"><%= errors.tyc.msg %></div>
+            <% } %>
+            <button type="submit" class="btn">Registrarme</button>
+            <p class="registro">
+                Ya tenés cuenta?
+                <a href="/users/login/" class="forgot-password"
+                    >Iniciá Sesión</a
+                >
+            </p>
+        </form>
+    </main>
+</div>
+<%- include('../partials/footer') %>

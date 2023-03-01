@@ -1,0 +1,124 @@
+        
+        <footer class="footer">
+            <div class="footer__container">
+                <section class="footer__section footer-socials">
+                    <img
+                    src="/images/guitar-pick.png"
+                    alt="Nueva Era"
+                    class="footer-socials__brand-logo"
+                    />
+                    <div class="footer-socials__logos">
+                        <img
+                        class="footer-socials__img"
+                        src="https://cdn-icons-png.flaticon.com/512/1384/1384015.png"
+                        alt="Instagram"
+                        />
+                        <img
+                        class="footer-socials__img"
+                        src="https://cdn-icons-png.flaticon.com/512/1384/1384005.png"
+                        alt="Facebook"
+                        />
+                        <img
+                        class="footer-socials__img"
+                        src="https://cdn-icons-png.flaticon.com/512/1384/1384017.png"
+                        alt="Twitter"
+                        />
+                    </div>
+                </section>
+                <section class="footer__section footer-links">
+                    <div class="footer-links__list">
+                        <h3 class="footer-links__header">Links</h3>
+                        <ul>
+                            <li class="footer-links__item"><a href="/">Home</a></li>
+                            <li class="footer-links__item"><a href="/about">Nosotros</a></li>
+                            <li class="footer-links__item"><a href="/contact">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links__list">
+                        <h3 class="footer-links__header">Mi Cuenta</h3>
+                        <ul>
+                            <li class="footer-links__item"><a href="/users/profile/">Mi Cuenta</a></li>
+                            <li class="footer-links__item"><a href="/cart/">Carrito</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links__list">
+                        <h3 class="footer-links__header">Contacto</h3>
+                        <ul>
+                            <li class="footer-links__item">
+                                <i class="fa-brands fa-whatsapp"></i
+                                    ><span> (011)-15-4324-2342</span>
+                            </li>
+                            <li class="footer-links__item">
+                                <i class="fa-solid fa-envelope"></i
+                                    ><span> <a href="mailto:ventasweb@nuevaera.com.ar?subject=Nueva Era || New Question">ventasweb@nuevaera.com.ar</a></span>
+                            </li>
+                            <li class="footer-links__item">
+                                <i class="fa-solid fa-clock"></i
+                                    ><span
+                                    > Lunes a Viernes de 10 a 14 y de 15 a 19 - Sábados de 10 a
+                                    14</span
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer-links__list">
+                            <h3 class="footer-links__header">Redes Sociales</h3>
+                            <ul>
+                                <li class="footer-links__item">
+                                    <i class="fa-brands fa-square-facebook"></i><span> <a href="https://www.facebook.com/">Facebook</a></span>
+                                </li>
+                                <li class="footer-links__item">
+                                    <i class="fa-brands fa-square-instagram"></i><span> <a href="https://www.instagram.com/">Instagram</a></span>
+                                </li>
+                                <li class="footer-links__item">
+                                    <i class="fa-brands fa-square-twitter"></i><span
+                                        > <a href="https://twitter.com/">Twitter</a>
+                                        </span
+                                        >
+                                    </li>
+                                </ul>
+                            </div>
+                </section>
+                <section class="footer__section footer__disclaimer">
+                    <p>&copy; 2022</p>
+                    <p>Desarrollado y administrado por dos randoms en DH</p>
+                    <p>
+                    Las fotos son a modo ilustrativo. La venta de cualquiera de los
+                    productos publicados está sujeta a la verificación de stock. Los
+                    precios online y los planes de financiación para los productos
+                    presentados/publicados son válidos exclusivamente para la compra vía
+                    internet en las páginas antes mencionadas.Las especificaciones
+                    técnicas y descripciones están sujetas a cambios sin previo aviso.
+                    </p>
+                </section>
+            </div>
+        </footer>
+        <% if (locals.productValidatorScript) { %>
+            <script src="/js/validators/productValidator.js"></script>
+        <% } %>
+        <% if (locals.orderDetailsScript) { %>
+            <script src="/js/orderDetails.js"></script>
+        <% } %>
+        <% if (locals.editProductValidatorScript) { %>
+            <script src="/js/validators/editProductValidator.js"></script>
+        <% } %> 
+        <%  if (locals.cartScript) { %>
+            <script src="/js/cart.js"></script>
+        <% } %> 
+        <%  if (locals.cartScript && locals.cartExists) { %>
+            <script src="/js/validators/checkoutValidator.js"></script>
+        <% } %> 
+        <%  if (locals.orderScript) { %>
+            <script src="/js/orders.js"></script>
+        <% } %>
+        <%  if (locals.categoryRedirect) { %>
+            <script src="/js/categoryRedirect.js"></script>
+        <% } %>
+        <%  if (locals.contactFormValidator) { %>
+            <script src="/js/validators/contactFormValidator.js"></script>
+        <% } %>
+        <script src="/js/utils/utils.js"></script>
+        <script src="/js/storage.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </body>
+</html>

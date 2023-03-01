@@ -1,0 +1,58 @@
+<body>
+    <header class="header">
+        <div class="header__container">
+            <i class="fa-solid fa-bars search-bar__icon"></i>
+            <div class="header__logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo" class="logo" />
+                </a>
+            </div>
+            <div class="user-panel">
+                <% if (locals && locals.isLogged) { %>
+                <div class="profile-header">
+                    <a href="/users/profile/"
+                        ><img
+                            src="/images/users/<%= locals.userLogged.avatar && locals.userLogged.avatar != '' ? locals.userLogged.avatar : 'default.jpg' %>"
+                            alt="locals.userLogged.first_name"
+                    /></a>
+                </div>
+                <% } else { %>
+                <a href="/users/login/"
+                    ><i class="fa-solid fa-user user-panel__icon"></i
+                ></a>
+                <% } %>
+
+                <a href="/cart/">
+                    <i class="fa-solid fa-cart-shopping user-panel__icon"></i>
+                </a>
+                <a href="/cart/">
+                    <span class="cart-item-counter"></span>
+                </a>
+
+            </div>
+            <form action="/search" method="GET" class="search-bar">
+                <input
+                    name="keywords"
+                    class="search-bar__input"
+                    type="text"
+                    placeholder="Guitarra, Bateria, etc"
+                />
+                <button type="submit" class="search-bar__button">
+                    <i
+                        class="fa-solid fa-magnifying-glass search-bar__icon"
+                    ></i>
+                </button>
+            </form>
+        </div>
+        <div class="search-bar-mobile">
+            <input
+                class="search-bar__input"
+                type="text"
+                placeholder="Guitarra, Bateria, etc"
+            />
+            <button class="search-bar__button">
+                <i class="fa-solid fa-magnifying-glass search-bar__icon"></i>
+            </button>
+        </div>
+    </header>
+</body>

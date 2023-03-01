@@ -1,0 +1,29 @@
+<%- include('./partials/head', {title: "Contacto"})%> <%-
+include('./partials/header')%> <%- include('./partials/nav')%>
+<main class="container--fixed">
+    <form action="https://formsubmit.co/c70753bb21bbc786b76df2d8da5c6732" method="POST" class="contact__form">
+        <h2 class="contact__title">Contacto</h2>
+        <div class="input-container">
+            <p class="contact-form__text">No compres cualquier cosa!</p>
+            <p class="contact-form__text">Escribinos, asi te damos una mano con todo lo que necesites saber.</p>
+            <p class="contact-form__text">Te asesoramos para que puedas dar con el producto ideal.</p>
+        </div>
+        <div class="input-container">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" id="name" value='' class="contactForm-input"/>
+            <p id="nameError" class="form-messageError text-danger"></p>
+        </div>
+        <div class="input-container">
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" value='' class="contactForm-input"/>
+            <p id="emailError" class="form-messageError text-danger"></p>
+        </div>
+        <div class="input-container">
+            <label for="message">Mensaje</label>
+            <textarea name="message" id="message" cols="30" rows="10" class="contactForm-input"></textarea>
+            <p id="messageError" class="form-messageError text-danger"></p>
+        </div>
+        <button type="submit" class="btn" id="submitContactBtn">Enviar</button>
+    </form>
+</main>
+<%- include('./partials/footer') %>

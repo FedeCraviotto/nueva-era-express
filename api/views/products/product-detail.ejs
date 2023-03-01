@@ -1,0 +1,127 @@
+<%- include('../partials/head', {title})%>
+<%- include('../partials/header')%>
+<%- include('../partials/nav')%>
+<div class="container--fixed">
+	<main>
+		<section class="card-details">
+			<div class="card-details__container">
+				<div class="card-details__img-container">
+					<img
+						class="card-details__img"
+						src="/images/products/<%= productToDetail.image || 'default.jpg' %>"
+						alt="<%= productToDetail.name %>"
+					/>
+				</div>
+				<div class="card-detail__info">
+					<h3 class="card-detail__name">
+						<%= productToDetail.name %>
+					</h3>
+					<p class="card-detail__short-desc">
+						<%= productToDetail.shortDesc %>
+					</p>
+					<div class="card-detail__price">
+						<% if( productToDetail.discount == 0) { %>
+							<p>$ <%= toThousand(productToDetail.price) %></p>
+						<% } else { %>
+							<p class="--newPrice">$ <%= toThousand(parseInt((productToDetail.price * (100 - productToDetail.discount)) /100)) %></p>
+							<p class="--oldPrice">$ <%= toThousand(productToDetail.price) %></p>
+						<% } %>
+					</div>
+					
+					<a href="#" class="btn btn-product-edit btn-anchor btn-addToCart" data-id="<%=productToDetail.id%>">Agregar al carrito</a>
+					<div class="card-details__payment-methods">
+						<h3>Metodos de pago</h3>
+						<img src="/images/metodos-de-pago2.png" alt="" />
+					</div>
+					<div class="card-details__long-desc">
+						<h3>Descripcion</h3>
+						<p>
+							<%= productToDetail.longDesc %>
+						</p>
+					</div>
+
+					<a href="/products" class="btn btn-product-edit btn-anchor">VOLVER</a>
+					<% if (locals.isAdmin) { %>
+						<a href="/products/<%= productToDetail.id %>/edit" class="btn btn-product-edit btn-anchor">EDITAR PRODUCTO</a>
+						<a href="" class="btn danger btn-product-edit btn-anchor">
+						<form action="/products/<%= productToDetail.id %>?_method=DELETE" method="POST">
+							<button type="submit" class="btn btn-details btn--transparent btn--no-shadow">ELIMINAR</button>
+						</form>
+						</a>
+					<% } %>
+
+				</div>
+				
+			</div>
+			
+		</section>
+		<section class="interest">
+			<div class="interest__text">
+				<h3>Te puede interesar</h3>
+				<h4><a href="/products/" class="categories-seeAll">ver todo</a></h4>
+			</div>
+			<ul class="products-list main-product-list">
+				<% if (locals.products && locals.products.length > 0) { %>
+					<% for (let product of products) { %>
+						<a href="/products/<%=product.id%>" class="main-flexchild card__link">
+							<li class="card card--aligned main-card">
+								<img
+									src="/images/products/<%= product.image || 'default.jpg' %>"
+									alt="<%=product.name%>"
+									class="card__img"
+								/>
+								<% if( product.discount == 0) { %>
+									<p>$ <%= toThousand(product.price) %></p>
+								<% } else { %>
+									<p class="card__price --newPrice">$ <%= toThousand(parseInt((product.price * (100 - product.discount)) /100)) %></p>
+									<span class="card__price --discountOff"><%=product.discount%>% off!</span>
+								<% } %>
+								<% if (product.dispatch == "1") { %>
+								<p class="card__dispatch">Envio gratis</p>
+								<% } %>
+								<p class="card__name"> <%=product.name%> </p>
+								<button class="btn">Comprar</button>
+							</li>
+						</a>
+					<% } %>
+				<% } %>
+			</ul>
+		</section>
+		<section class="brands">
+			<h3 class="brands__title">Encontra las mejores marcas!!!</h3>
+			<div class="brands__img-container">
+				<img
+					src="https://musicopolix.com/img/m/480-brands_default.jpg"
+					alt="Gibson"
+					class="brands__img"
+				/>
+				<img
+					src="https://musicopolix.com/img/m/262-brands_default.jpg"
+					alt="Alhambra"
+					class="brands__img"
+				/>
+				<img
+					src="https://musicopolix.com/img/m/136-brands_default.jpg"
+					alt="Fender"
+					class="brands__img"
+				/>
+				<img
+					src="https://musicopolix.com/img/m/125-brands_default.jpg"
+					alt="Boss"
+					class="brands__img"
+				/>
+				<img
+					src="https://musicopolix.com/img/m/124-brands_default.jpg"
+					alt="Roland"
+					class="brands__img"
+				/>
+				<img
+					src="https://musicopolix.com/img/m/57-brands_default.jpg    "
+					alt="Yamaha"
+					class="brands__img"
+				/>
+			</div>
+		</section>
+	</main>
+</div>
+<%- include('../partials/footer') %>

@@ -1,0 +1,24 @@
+<nav class="nav">
+    <ul class="nav__list">
+        <li class="nav__item">
+            <a class="nav__link" href="/users/profile/">Mi Cuenta</a>
+        </li>
+        <li class="nav__item">
+            <a class="nav__link" href="/">Home</a>
+        </li>
+        <li class="nav__item">
+            <a class="nav__link" href="/products/">Productos</a>
+        </li>
+        <li class="nav__item">
+            <a class="nav__link" href="/about">Nosotros</a>
+        </li>
+        <li class="nav__item">
+            <a class="nav__link" href="/contact">Contacto</a>
+        </li>
+        <% if (locals && locals.isLogged && locals.isAdmin) { %>
+        <li class="nav__item">
+            <a class="nav__link" href="/products/create">Vender</a>
+        </li>
+        <% } %>
+    </ul>
+</nav>

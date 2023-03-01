@@ -1,0 +1,78 @@
+<%- include('../partials/head', {title})%> <%- include('../partials/header')%>
+<%- include('../partials/nav')%>
+<div class="container--fixed">
+  <main>
+	<% if (locals.cartExists) { %>
+    <form action="/" class="cart">
+      <div class="cart__body">
+        <h2 class="cart__title">Tu carrito</h2>
+        <!-- IF Storage is not empty -- renderCart()  -->
+		
+      </div>
+      <div class="cart-subtotal">
+        <p class="cart-subtotal__text">Total</p>
+        <p class="cart-subtotal__total-amount"></p>
+      </div>
+
+      <article class="checkout-form">
+		<div class="--two-columns">
+			<div class="--width50">
+				<div class="input-container">
+					<label for="city">Localidad</label>
+					<select style="display: block" name="city" id="city">
+						<option value="">---Seleccionar</option>
+						<% for (let i = 0; i < provinces.length; i++) { %>
+							<option value="<%=provinces[i]%>"%>>
+							  <%=provinces[i]%>
+							</option>
+						<% } %>
+					</select>
+					<p class="form-error" id="cityError"></p>
+				</div>
+				<div class="input-container">
+					<label for="street">Direccion</label>
+					<input type="text" id="street"/>
+					<p class="form-error" id="streetError"></p>
+				</div>
+			</div>
+			<div class="--width50">
+				<div class="input-container">
+					<label for="paymentMethod">Método de pago</label>
+					<select id="paymentMethod">
+					  <option value="">---Seleccionar</option>
+					  <option value="Tarjeta de Credito">Crédito</option>
+					  <option value="Tarjeta de Debito">Débito</option>
+					  <option value="Efectivo">Efectivo</option>
+					  <option value="Criptomonedas">Cripto</option>
+					</select>
+					<p class="form-error" id="paymentMethodError"></p>
+				  </div>
+				<div class="input-container">
+					<label for="phone">Teléfono de contacto</label>
+					<input type="text" id="phone"/>
+					<p class="form-error" id="phoneError"></p>
+				</div>
+			</div>
+		</div>
+
+        <div>
+          <a href="/products" class="btn btn-product-edit btn-anchor"
+            >Seguir comprado</a
+          >
+          <br />
+          <button type="submit" class="btn btn-product-edit" id="btnSubmitOrder">Finalizar compra</button>
+        </div>
+      </article>
+
+      <!-- IF storage is empty -->
+	  <% } else { %>
+		<div>
+            <p class="cart-subtotal__text">No tienes agregado ningún producto al carrito de compras</p>
+            <a href="/products" class="btn btn-product-edit btn-anchor">Buscar productos</a>
+        </div>
+		<% } %>
+      <!-- renderEmptyCart() > Empty Cart -->
+    </form>
+  </main>
+</div>
+<%- include('../partials/footer', {cartScript}) %>

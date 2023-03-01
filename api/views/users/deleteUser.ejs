@@ -1,0 +1,13 @@
+<%- include('../partials/head', {title})%> <%- include('../partials/header')%>
+<%- include('../partials/nav')%>
+<div class="container--fixed">
+	<main>
+		
+		<form class="login-container" action="/users/delete/<%= userToDelete.id %>?_method=DELETE" method="POST">
+			<p>¿Seguro que quiere borrar su perfil de usuario?</p>
+			<a href="/users/profile" class="btn btn-product-edit btn-anchor">Volver</a>
+			<button type="submit" class="btn danger">Borrar perfil</button>
+		</form>
+	</main>
+</div>
+<%- include('../partials/footer') %>

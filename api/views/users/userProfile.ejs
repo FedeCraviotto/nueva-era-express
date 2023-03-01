@@ -1,0 +1,42 @@
+<%- include('../partials/head', {title: 'Profile'})%> <%-
+include('../partials/header')%> <%- include('../partials/nav')%>
+<div class="container--fixed">
+    <main>
+        <div class="login-container">
+            <h3>Tu informacion</h3>
+
+            <div class="img-profile">
+                <img src="/images/users/<%= user.avatar && user.avatar != '' ? user.avatar : 'default.jpg' %> " alt="<%=user.first_name%>"/>
+            </div>
+            <div class="info-profile">
+                <h3>Nombre:</h3>
+                <p><%= user.first_name %></p>
+                <h3>Apellido</h3>
+                <p><%= user.last_name %></p>
+                <h3>Email</h3>
+                <p><%= user.email %></p>
+                <div class="profile-options">
+                    <button class="btn">
+                        <a href="/users/edit/<%=user.id %>"
+                            >Editar Datos de Perfil</a
+                        >
+                    </button>
+                    <button class="btn">
+                        <a href="/cart/orders">Ordenes de compra</a>
+                    </button>
+                    <button class="btn">Cambiar Password</button>
+                    <button class="btn">
+                        <a id="logout" href="/users/logout">Log Out</a>
+                    </button>
+                </div>
+                <p class="delete-user">
+                    <a href="/users/delete/<%= user.id  %>  "
+                        >Eliminar usuario</a
+                    >
+                </p>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="/js/userProfile.js"></script>
+<%- include('../partials/footer') %>

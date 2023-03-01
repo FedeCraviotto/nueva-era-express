@@ -1,0 +1,51 @@
+<%- include('../partials/head', {title})%> <%- include('../partials/header')%>
+<%- include('../partials/nav')%>
+<div class="container container--fixed">
+    <main>
+        <form action="/users/login" method="POST" class="login-container">
+            <h3>Login</h3>
+            <div class="input-container">
+                <label for="username">Usuario</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Usuario"
+                />
+                <% if (locals.errors && errors.email) { %>
+                <p class="text-danger"><%= errors.email.msg %></p>
+                <% } %>
+            </div>
+            <div class="input-container">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Contraseña"
+                />
+            </div>
+            <div class="input-recordarsesion">
+                <input
+                    type="checkbox"
+                    id="recordarUsuario"
+                    name="recordarUsuario"
+                />
+                <label for="recordarUsuario">Recordar datos de sesión</label>
+            </div>
+            <button type="submit" class="btn">Iniciar Sesión</button>
+            <p>
+                <a href="#" class="forgot-password"
+                    >¿Olvidaste tu contraseña?</a
+                >
+            </p>
+            <p class="registro">
+                Aun no tenes cuenta?
+                <a href="/users/register/" class="forgot-password"
+                    >Registrate</a
+                >
+            </p>
+        </form>
+    </main>
+</div>
+<%- include('../partials/footer') %>

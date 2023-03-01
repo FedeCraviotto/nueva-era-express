@@ -1,0 +1,38 @@
+{
+  "name": "proyecto_integrador",
+  "version": "1.0.0",
+  "description": "Proyecto integrador realizado en la escuela de programacion Digital House. El desarrollo de este proyecto estara dividido en 8 sprints que abarcarán la totalidad de las temáticas del curso.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "startdev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leoturzi/proyecto_integrador.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leoturzi/proyecto_integrador/issues"
+  },
+  "homepage": "https://github.com/leoturzi/proyecto_integrador#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "express-validator": "^6.14.2",
+    "method-override": "^3.0.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.19",
+    "sequelize": "^6.25.3"
+  }
+}

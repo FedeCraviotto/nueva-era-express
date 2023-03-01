@@ -1,0 +1,210 @@
+<%- include('../partials/head', {title})%>
+	<%- include('../partials/header')%>
+		<%- include('../partials/nav')%>
+			<div class="container--fixed">
+				<main>
+					<section class="product-edit__form">
+						<form action="/products/<%= product.id %>?_method=PUT" method="POST"
+							enctype="multipart/form-data" id="product-edit__form">
+							<h1>Editando <%= product.name %>
+							</h1>
+							<div class="input-container">
+								<label for="name">Nombre</label>
+								<input type="text" name="name" id="name"
+									value='<%= locals.oldData && oldData.name? oldData.name : product.name %>'>
+								<% if (locals.errors && errors.name) { %>
+									<div class="text-danger">
+										<%= errors.name.msg %>
+									</div>
+								<% } %>
+								<p class="form-error" id="nameError"></p>
+							</div>
+							
+							<div class="input-container">
+								<label for="shortDesc">Descripción breve</label>
+								<textarea name="shortDesc" cols="30" rows="3"
+									id="shortDesc"><%= locals.oldData && oldData.shortDesc? oldData.shortDesc : product.shortDesc %></textarea>
+								<% if (locals.errors && errors.shortDesc) { %>
+									<div class="text-danger">
+										<%= errors.shortDesc.msg %>
+									</div>
+								<% } %>
+								<p class="form-error" id="shortDescError"></p>
+							</div>
+							<div class="input-container">
+								<label for="longDesc">Descripción detallada</label>
+								<textarea name="longDesc" cols="30" rows="10"
+									id="longDesc"><%= locals.oldData && oldData.longDesc? oldData.longDesc : product.longDesc %> </textarea>
+								<% if (locals.errors && errors.longDesc) { %>
+									<div class="text-danger">
+										<%= errors.longDesc.msg %>
+									</div>
+								<% } %>
+								<p class="form-error" id="longDescError"></p>
+							</div>
+
+							<div class="input-container">
+								<label for="category">Categoría:</label>
+								<select name="category" id="category">
+
+									<% for (let i=0; i < categories.length; i++) { %>
+
+										<% if (locals.oldData && oldData.category==categories[i].id) { %>
+											<option value="<%=categories[i].id%>" selected>
+												<%=categories[i].name.toUpperCase()%>
+											</option>
+										<% } else if (categories[i].id==product.category_id) { %>
+											<option value="<%=categories[i].id%>" selected>
+												<%=categories[i].name.toUpperCase()%>
+											</option>
+										<% } else { %>
+											<option value="<%=categories[i].id%>">
+												<%=categories[i].name.toUpperCase()%>
+											</option>
+										<% } %>
+
+									<% } %>
+
+								</select>
+								<% if (locals.errors && errors.category) { %>
+									<div class="text-danger">
+										<%= errors.category.msg %>
+									</div>
+								<% } %>
+							</div>
+							<div class="input-container">
+								<label for="brand">Marca:</label>
+								<select name="brand" id="brand">
+									<% for (let i=0; i < brands.length; i++) { %>
+
+										<% if (locals.oldData && oldData.brand==brands[i].id) { %>
+											<option value="<%=brands[i].id%>" selected>
+												<%=brands[i].name%>
+											</option>
+										<% } else if (brands[i].id==product.brand_id) { %>
+											<option value="<%=brands[i].id%>" selected>
+												<%=brands[i].name%>
+											</option>
+										<% } else { %>
+											<option value="<%=brands[i].id%>">
+												<%=brands[i].name%>
+											</option>
+										<% } %>
+
+								<% } %>
+								</select>
+								<% if (locals.errors && errors.brand) { %>
+									<div class="text-danger">
+										<%= errors.brand.msg %>
+									</div>
+								<% } %>
+							</div>
+							<div class="input-container">
+								<label for="color">Color:</label>
+								<select name="color" id="color">
+									<% for (let i=0; i < colors.length; i++) { %>
+
+										<% if (locals.oldData && oldData.color==colors[i].id) { %>
+											<option value="<%=colors[i].id%>" selected>
+												<%=colors[i].name%>
+											</option>
+										<% } else if (colors[i].id==product.color_id) { %>
+											<option value="<%=colors[i].id%>" selected>
+											<%=colors[i].name%>
+											</option>
+										<% } else { %>
+											<option value="<%=colors[i].id%>">
+												<%=colors[i].name%>
+											</option>
+										<% } %>
+
+									<% } %>
+								</select>
+								<% if (locals.errors && errors.color) { %>
+									<div class="text-danger">
+										<%= errors.color.msg %>
+									</div>
+								<% } %>
+							</div>
+							<div class="input-container">
+								<label for="price">Precio</label>
+								<input type="text" name="price" id="price"
+									value='<%= locals.oldData && oldData.price? oldData.price : product.price %>'>
+								<% if (locals.errors && errors.color) { %>
+									<div class="text-danger">
+										<%= errors.price.msg %>
+									</div>
+									<% } %>
+										<p class="form-error" id="priceError"></p>
+							</div>
+							<div class="input-container">
+								<label for="image">Imágen actual</label>
+								<img class="edit-img" src="/images/products/<%= product.image%>" alt="">
+							</div>
+							<div class="input-container">
+								<label for="newImage">Actualizar imágen</label>
+								<input type="file" name="newImage" id="newImage">
+								<% if (locals.errors && errors.newImage) { %>
+									<div class="text-danger">
+										<%= errors.newImage.msg %>
+									</div>
+									<% } %>
+									<p class="form-error" id="newImageError"></p>
+							</div>
+							<div class="input-container">
+
+								<div class="input-container">
+									<p>Envío gratis:</p>
+									<div>
+										<label for="dispatchYes">Si</label>
+										<input class="input--width-unset" type="radio" id="dispatchYes" name="dispatch"
+											value="1" <%=(!locals.oldData && product.dispatch==1)? 'checked' :
+											(locals.oldData && oldData.dispatch && (oldData.dispatch==1))? 'checked'
+											: '' ; %>>
+									</div>
+									<div>
+										<label for="dispatchNo">No</label>
+										<input class="input--width-unset" type="radio" id="dispatchNo" name="dispatch"
+											value="0" <%=(!locals.oldData && product.dispatch==0)? 'checked' :
+											(locals.oldData && oldData.dispatch && (oldData.dispatch==0))? 'checked'
+											: '' ; %>>
+									</div>
+									
+								</div>
+
+							</div>
+							<div class="input-container">
+								<label for="discount">Descuento </label>
+								<input type="text" name="discount" id="discount"
+									value='<%= locals.oldData && oldData.discount ? oldData.discount : product.discount %>'>
+								<% if (locals.errors && errors.discount) { %>
+									<div class="text-danger">
+										<%= errors.discount.msg %>
+									</div>
+									<% } %>
+										<p class="form-error" id="discountError"></p>
+							</div>
+							<div class="input-container">
+								<label for="stock">Stock disponible </label>
+								<input type="text" name="stock" id="stock"
+									value='<%= locals.oldData && oldData.stock ? oldData.stock : product.stock %>'>
+								<% if (locals.errors && errors.stock) { %>
+									<div class="text-danger">
+										<%= errors.stock.msg %>
+									</div>
+									<% } %>
+										<p class="form-error" id="stockError"></p>
+							</div>
+							<div class="btn-product-create-container">
+								<button type="submit" class="btn btn-product-edit" id="editProductBtn">Guardar
+									Cambios</button>
+							</div>
+						</form>
+						<form action="/products/<%= product.id %>?_method=DELETE" method="POST">
+							<button type="submit" class="btn btn-product-edit">Eliminar</button>
+							<a href="/products" class="btn btn-product-edit btn-anchor">Volver</a>
+						</form>
+					</section>
+				</main>
+			</div>
+			<%- include('../partials/footer') %>
