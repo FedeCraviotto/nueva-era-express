@@ -31,7 +31,7 @@ window.addEventListener('load', async (e) => {
                 }
                 sessionStorage.setItem('cart', JSON.stringify(cart));
                 navigator.sendBeacon(
-                    'https://localhost:3000/api/cart/update_cart',
+                    'https://nueva-era-express-fnc.onrender.com/api/cart/update_cart',
                     sessionStorage.getItem('cart')
                     );
             } else {
@@ -40,7 +40,7 @@ window.addEventListener('load', async (e) => {
                     JSON.stringify([{ id: e.target.dataset.id, q: 1 }])
                 );
                 navigator.sendBeacon(
-                    'https://localhost:3000/api/cart/update_cart',
+                    'https://nueva-era-express-fnc.onrender.com/api/cart/update_cart',
                     sessionStorage.getItem('cart')
                     );
                 cartToast.fire({
@@ -63,7 +63,7 @@ window.addEventListener('load', async (e) => {
     refreshCounter();
 
     if (!sessionStorage.getItem('cart')) {
-        await fetch('https://localhost:3000/api/users/cart')
+        await fetch('https://nueva-era-express-fnc.onrender.com/api/users/cart')
             .then((userJson) => userJson.json())
             .then((userData) => {
                 if (!userData.error) {
@@ -84,7 +84,7 @@ window.addEventListener('load', async (e) => {
         if (document.visibilityState === 'hidden') {
             if (sessionStorage && sessionStorage.getItem('cart')!== null) {
                 navigator.sendBeacon(
-                    'https://localhost:3000/api/cart/update_cart',
+                    'https://nueva-era-express-fnc.onrender.com/api/cart/update_cart',
                     sessionStorage.getItem('cart')
                 );
             }
